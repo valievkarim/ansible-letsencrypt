@@ -109,7 +109,7 @@
 
 - name: Create crontab to renew SSL certificates
   cron:
-    name: 'renew SSL certificates'
+    name: "{{ 'renew SSL certificates' if letsencrypt_install_path == '/usr/local/acme-tiny' else 'renew SSL certificates for ' + letsencrypt_install_path }}"
     job: '{{ letsencrypt_install_path }}/renew_certificate.sh'
     minute: '{{ letsencrypt_cron_renew[0] }}'
     hour: '{{ letsencrypt_cron_renew[1] }}'
