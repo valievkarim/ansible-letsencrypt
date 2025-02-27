@@ -2,7 +2,7 @@
 
 set -e
 
-TEMP_CERT_PATH="/tmp/{{ letsencrypt_domains[0] }}.crt"
+TEMP_CERT_PATH="{{ letsencrypt_chained_pem_path }}-temp.crt"
 INTERMEDIATE_PATH="{{ letsencrypt_install_path }}/intermediate.crt"
 
 # Generate Let's Encrypt certificate for your domain(s).
