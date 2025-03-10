@@ -96,8 +96,14 @@
 - name: Complete trust chain
   shell: 'cat {{ letsencrypt_valid_certificate_path }} {{ letsencrypt_install_path }}/intermediate.crt > {{ letsencrypt_chained_pem_path }}'
   when: (letsencrypt_register_output is changed) and (letsencrypt_register_output.stderr.endswith('Certificate signed!'))
-  notify:
-    - Restart service (nginx, apache, haproxy, etc.)
+#  notify:
+#    - Restart service (nginx, apache, haproxy, etc.)
+
+- name: Restart service (nginx, apache, haproxy, etc.) - not a handler
+  when: (letsencrypt_register_output is changed) and (letsencrypt_register_output.stderr.endswith('Certificate signed!'))
+  service:
+    name: '{{ letsencrypt_restart_service_name }}'
+    state: 'restarted'
 
 - name: Copy renew_certificate to the installation path
   template:
